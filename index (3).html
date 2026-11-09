@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#090914" />
+  <meta name="description" content="A fan-made Grand Theft Auto VI countdown and information page featuring the trailer, story, characters, Leonida and launch details." />
+  <title>Grand Theft Auto VI — The Leonida Countdown</title>
+  <style>
+    :root {
+      --bg: #080811;
+      --panel: #11111f;
+      --panel-2: #171729;
+      --text: #f5f3f7;
+      --muted: #aaa6b7;
+      --pink: #ff4fa3;
+      --coral: #ff806d;
+      --cyan: #61e6e1;
+      --line: rgba(255,255,255,.12);
+      --radius: 22px;
+      --shadow: 0 24px 70px rgba(0,0,0,.32);
+      --max: 1180px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 95px; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 85% 3%, rgba(116, 51, 119, .22), transparent 32rem),
+        radial-gradient(ellipse at 8% 32%, rgba(32, 112, 127, .12), transparent 28rem),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .container { width: min(var(--max), calc(100% - 40px)); margin-inline: auto; }
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(8,8,17,.78);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(18px);
+    }
+    .nav-wrap { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 22px; }
+    .brand { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .brand-mark {
+      width: 42px; height: 42px; display: grid; place-items: center;
+      border: 1px solid rgba(255,79,163,.65); border-radius: 13px;
+      color: var(--pink); font-weight: 950; letter-spacing: -2px; font-size: 20px;
+      box-shadow: 0 0 28px rgba(255,79,163,.16), inset 0 0 18px rgba(255,79,163,.08);
+      transform: skew(-6deg);
+    }
+    .brand-copy { display: grid; line-height: 1.12; }
+    .brand-copy strong { font-size: 12px; letter-spacing: .16em; }
+    .brand-copy span { color: var(--muted); font-size: 10px; letter-spacing: .22em; margin-top: 5px; }
+    .nav-links { display: flex; align-items: center; justify-content: flex-end; gap: 19px; }
+    .nav-links a { color: #c7c2d0; font-size: 11px; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; transition: color .2s ease; white-space: nowrap; }
+    .nav-links a:hover, .nav-links a.active { color: var(--pink); }
+    .nav-cta { border: 1px solid rgba(97,230,225,.45); border-radius: 999px; padding: 9px 14px; color: var(--cyan) !important; }
+    .menu-toggle { display: none; color: var(--text); background: transparent; border: 1px solid var(--line); border-radius: 11px; width: 42px; height: 42px; cursor: pointer; }
+
+    .hero { min-height: 680px; position: relative; display: flex; align-items: center; isolation: isolate; overflow: hidden; }
+    .hero::before {
+      content: ""; position: absolute; inset: 0; z-index: -3;
+      background:
+        linear-gradient(90deg, rgba(8,8,17,.98) 0%, rgba(8,8,17,.88) 33%, rgba(8,8,17,.28) 76%, rgba(8,8,17,.62) 100%),
+        linear-gradient(0deg, var(--bg) 0%, transparent 25%, transparent 80%, rgba(8,8,17,.35) 100%),
+        radial-gradient(ellipse at 70% 46%, rgba(255,118,112,.66), transparent 16%),
+        radial-gradient(ellipse at 73% 47%, rgba(255,78,155,.36), transparent 38%),
+        linear-gradient(120deg, #1b1835 0%, #482a54 38%, #bd5468 68%, #ed9a72 100%);
+    }
+    .hero::after {
+      content: ""; position: absolute; inset: auto -2% 0; height: 42%; z-index: -2;
+      background: linear-gradient(0deg, rgba(4,5,13,.98), rgba(4,5,13,.72) 38%, transparent);
+      clip-path: polygon(0 38%, 4% 38%, 4% 20%, 8% 20%, 8% 44%, 12% 44%, 12% 5%, 15% 5%, 15% 38%, 19% 38%, 19% 28%, 22% 28%, 22% 52%, 27% 52%, 27% 15%, 31% 15%, 31% 42%, 35% 42%, 35% 30%, 39% 30%, 39% 55%, 44% 55%, 44% 12%, 48% 12%, 48% 44%, 53% 44%, 53% 27%, 57% 27%, 57% 50%, 62% 50%, 62% 8%, 66% 8%, 66% 41%, 70% 41%, 70% 24%, 75% 24%, 75% 55%, 80% 55%, 80% 18%, 84% 18%, 84% 45%, 89% 45%, 89% 29%, 93% 29%, 93% 52%, 97% 52%, 97% 31%, 100% 31%, 100% 100%, 0 100%);
+      opacity: .94;
+    }
+    .hero-art { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+    .sun { position: absolute; width: min(36vw, 410px); aspect-ratio: 1; right: 13%; top: 12%; border-radius: 50%; background: linear-gradient(160deg, #ffca9a, #ff7295 65%, #e84f99); box-shadow: 0 0 90px rgba(255,109,138,.4); opacity: .8; }
+    .sun::after { content: ""; position: absolute; inset: 55% -2% 0; background: repeating-linear-gradient(to bottom, rgba(111,37,91,.0) 0 11px, rgba(111,37,91,.45) 12px 17px); }
+    .palm { position: absolute; right: 4%; bottom: 8%; width: 220px; height: 430px; opacity: .48; transform: rotate(4deg); }
+    .palm::before { content: ""; position: absolute; width: 12px; height: 360px; bottom: 0; left: 52%; background: linear-gradient(90deg,#090a16,#292038); border-radius: 100% 100% 0 0; transform: rotate(-7deg); }
+    .palm i { position: absolute; left: 50%; top: 34px; width: 155px; height: 24px; border-top: 8px solid #0b0b18; border-radius: 100% 0 0; transform-origin: 0 50%; }
+    .palm i:nth-child(1) { transform: rotate(-155deg); }
+    .palm i:nth-child(2) { transform: rotate(-115deg); width: 190px; }
+    .palm i:nth-child(3) { transform: rotate(-73deg); width: 180px; }
+    .palm i:nth-child(4) { transform: rotate(-30deg); width: 155px; }
+    .palm i:nth-child(5) { transform: rotate(12deg); width: 145px; }
+    .hero-content { padding: 95px 0 115px; max-width: 710px; }
+    .eyebrow { display: inline-flex; gap: 10px; align-items: center; color: var(--cyan); font-size: 11px; font-weight: 850; letter-spacing: .22em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 28px; height: 1px; background: currentColor; }
+    .hero h1 { margin: 22px 0 8px; font-size: clamp(64px, 10vw, 126px); line-height: .83; letter-spacing: -.085em; text-transform: uppercase; font-weight: 1000; text-shadow: 0 10px 50px rgba(0,0,0,.28); }
+    .hero h1 span { display: block; color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,.86); font-size: .56em; letter-spacing: .02em; margin: 13px 0 0 7px; }
+    .hero-sub { margin: 25px 0 30px; max-width: 520px; color: #ddd5e1; font-size: 15px; }
+    .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; border-radius: 999px; padding: 13px 20px; font-size: 11px; font-weight: 900; letter-spacing: .13em; text-transform: uppercase; border: 1px solid transparent; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+    .btn:hover { transform: translateY(-3px); }
+    .btn-primary { color: #180d1b; background: linear-gradient(100deg, #ff6da6, #ffad8b); box-shadow: 0 10px 30px rgba(255,91,151,.22); }
+    .btn-ghost { color: var(--text); background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.22); backdrop-filter: blur(10px); }
+    .hero-meta { display: flex; gap: 26px; margin-top: 44px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.16); max-width: 530px; }
+    .meta-item { display: grid; gap: 3px; }
+    .meta-item strong { font-size: 14px; letter-spacing: .04em; }
+    .meta-item span { color: #b4adbf; font-size: 9px; letter-spacing: .15em; text-transform: uppercase; }
+    .hero-index { position: absolute; right: 30px; bottom: 39px; color: rgba(255,255,255,.65); font-size: 10px; letter-spacing: .2em; writing-mode: vertical-rl; }
+
+    .ticker { overflow: hidden; border-top: 1px solid rgba(255,255,255,.1); border-bottom: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.025); }
+    .ticker-track { display: flex; width: max-content; gap: 34px; padding: 14px 0; color: #d4cbd9; font-size: 10px; font-weight: 850; letter-spacing: .2em; text-transform: uppercase; animation: ticker 28s linear infinite; }
+    .ticker-track span::after { content: "✦"; margin-left: 34px; color: var(--pink); }
+    @keyframes ticker { to { transform: translateX(-50%); } }
+
+    section { padding: 100px 0; position: relative; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 25px; margin-bottom: 36px; }
+    .section-label { display: block; color: var(--pink); font-size: 10px; font-weight: 900; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 11px; }
+    h2 { margin: 0; font-size: clamp(34px, 5vw, 58px); line-height: .98; letter-spacing: -.055em; text-transform: uppercase; }
+    .section-head p { max-width: 390px; margin: 0; color: var(--muted); font-size: 13px; }
+    .panel { background: linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.025)); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .countdown-section { padding-top: 82px; }
+    .countdown-panel { position: relative; overflow: hidden; padding: clamp(26px, 5vw, 56px); background: linear-gradient(115deg, rgba(80,29,83,.42), rgba(17,17,31,.94) 52%, rgba(22,73,79,.32)); }
+    .countdown-panel::after { content: "VI"; position: absolute; right: 15px; top: -65px; color: rgba(255,255,255,.035); font-size: clamp(180px, 32vw, 390px); font-weight: 1000; line-height: 1; letter-spacing: -.12em; pointer-events: none; }
+    .countdown-top { display: flex; justify-content: space-between; gap: 15px; align-items: center; position: relative; z-index: 1; }
+    .live-dot { display: inline-flex; align-items: center; gap: 8px; color: var(--cyan); font-size: 10px; font-weight: 900; letter-spacing: .17em; text-transform: uppercase; }
+    .live-dot::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 14px var(--cyan); }
+    .countdown-date { color: #d5cedb; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+    .timer { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 13px; margin: 38px 0 25px; position: relative; z-index: 1; }
+    .time-box { min-width: 0; padding: 24px 12px 20px; text-align: center; border-radius: 16px; background: rgba(6,7,16,.62); border: 1px solid rgba(255,255,255,.1); }
+    .time-box strong { display: block; font-size: clamp(36px, 6vw, 70px); line-height: 1; letter-spacing: -.07em; font-variant-numeric: tabular-nums; }
+    .time-box span { display: block; color: #aaa4b6; margin-top: 12px; font-size: 9px; font-weight: 850; letter-spacing: .22em; text-transform: uppercase; }
+    .timer-note { position: relative; z-index: 1; display: flex; justify-content: space-between; gap: 16px; align-items: center; color: var(--muted); font-size: 11px; }
+    .timer-note b { color: var(--text); }
+    .copy-btn { color: var(--cyan); border: 1px solid rgba(97,230,225,.35); background: transparent; border-radius: 999px; padding: 9px 13px; font-size: 9px; font-weight: 850; letter-spacing: .13em; text-transform: uppercase; cursor: pointer; }
+
+    .trailer-card { padding: 12px; overflow: hidden; }
+    .video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 15px; background: #05050a; }
+    .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .trailer-caption { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 20px 15px 9px; }
+    .trailer-caption h3 { margin: 0; font-size: 16px; letter-spacing: -.02em; }
+    .trailer-caption p { margin: 4px 0 0; color: var(--muted); font-size: 11px; }
+    .tag { flex-shrink: 0; padding: 7px 10px; border: 1px solid rgba(255,79,163,.35); color: #ff91bd; border-radius: 999px; font-size: 9px; font-weight: 900; letter-spacing: .13em; text-transform: uppercase; }
+
+    .story-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 18px; }
+    .story-main { padding: clamp(25px,4vw,42px); min-height: 310px; position: relative; overflow: hidden; background: linear-gradient(135deg, rgba(255,86,151,.19), rgba(31,25,52,.76) 55%, rgba(25,111,117,.18)); }
+    .story-main::after { content: "LEONIDA"; position: absolute; bottom: -23px; right: -10px; font-size: clamp(52px,10vw,118px); font-weight: 1000; letter-spacing: -.08em; color: rgba(255,255,255,.055); }
+    .story-main h3 { max-width: 500px; margin: 0 0 17px; font-size: clamp(26px,4vw,43px); letter-spacing: -.05em; line-height: 1.05; text-transform: uppercase; position: relative; z-index: 1; }
+    .story-main p { max-width: 570px; color: #c6c0ce; font-size: 13px; position: relative; z-index: 1; }
+    .story-side { display: grid; gap: 18px; }
+    .info-tile { padding: 25px; }
+    .tile-number { display: block; color: var(--cyan); font-size: 10px; font-weight: 900; letter-spacing: .17em; }
+    .info-tile h3 { margin: 9px 0 6px; font-size: 17px; }
+    .info-tile p { margin: 0; color: var(--muted); font-size: 12px; }
+
+    .character-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 18px; }
+    .character-card { min-height: 345px; padding: 28px; display: flex; flex-direction: column; justify-content: end; overflow: hidden; position: relative; }
+    .character-card::before { content: ""; position: absolute; inset: 0; opacity: .95; }
+    .character-card.jason::before { background: radial-gradient(ellipse at 70% 25%, rgba(255,182,135,.78), transparent 33%), linear-gradient(145deg, rgba(22,83,94,.4), rgba(17,17,31,.97) 70%); }
+    .character-card.lucia::before { background: radial-gradient(ellipse at 72% 25%, rgba(255,108,165,.62), transparent 35%), linear-gradient(145deg, rgba(104,43,85,.55), rgba(17,17,31,.97) 70%); }
+    .character-silhouette { position: absolute; right: 10%; top: 12%; width: 150px; height: 200px; opacity: .34; filter: blur(.2px); }
+    .character-silhouette::before { content: ""; position: absolute; width: 70px; height: 70px; border-radius: 50%; background: #0a0a14; left: 40px; top: 0; }
+    .character-silhouette::after { content: ""; position: absolute; width: 145px; height: 140px; border-radius: 48% 48% 8px 8px; background: #0a0a14; left: 3px; top: 65px; transform: perspective(80px) rotateX(-4deg); }
+    .character-card.lucia .character-silhouette { transform: scale(.93) rotate(-5deg); right: 14%; }
+    .character-content { position: relative; z-index: 1; }
+    .character-card .role { color: var(--cyan); font-size: 9px; font-weight: 900; letter-spacing: .2em; text-transform: uppercase; }
+    .character-card h3 { margin: 6px 0 8px; font-size: 36px; line-height: 1; text-transform: uppercase; letter-spacing: -.06em; }
+    .character-card p { color: #d0c9d5; font-size: 12px; max-width: 430px; margin: 0; }
+    .character-foot { margin-top: 18px; color: #aaa4b5; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; }
+
+    .world-grid { display: grid; grid-template-columns: 1.2fr .8fr .8fr; gap: 15px; }
+    .world-card { min-height: 270px; padding: 25px; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: end; }
+    .world-card::before { content: ""; position: absolute; inset: 0; transition: transform .6s ease; }
+    .world-card:hover::before { transform: scale(1.06); }
+    .world-card.city::before { background: linear-gradient(0deg, rgba(6,7,16,.97), rgba(6,7,16,.08) 80%), radial-gradient(ellipse at 70% 30%, #fd8e8d, transparent 28%), linear-gradient(135deg,#24234c,#bd6279 65%,#f5b28b); }
+    .world-card.coast::before { background: linear-gradient(0deg, rgba(6,7,16,.97), rgba(6,7,16,.05) 80%), radial-gradient(ellipse at 55% 35%, #8ce1d7, transparent 27%), linear-gradient(140deg,#123d51,#287d83 50%,#e18d8d); }
+    .world-card.state::before { background: linear-gradient(0deg, rgba(6,7,16,.97), rgba(6,7,16,.05) 80%), radial-gradient(ellipse at 70% 25%, #d5b56f, transparent 24%), linear-gradient(140deg,#173b39,#3c7160 55%,#d1a77d); }
+    .world-number { position: absolute; top: 20px; left: 22px; color: rgba(255,255,255,.78); font-size: 10px; font-weight: 900; letter-spacing: .2em; }
+    .world-card h3, .world-card p { position: relative; z-index: 1; }
+    .world-card h3 { margin: 0 0 6px; font-size: 23px; letter-spacing: -.04em; text-transform: uppercase; }
+    .world-card p { margin: 0; color: #d0c9d5; font-size: 11px; }
+
+    .feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 15px; }
+    .feature-card { padding: 25px; min-height: 215px; }
+    .feature-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 13px; background: rgba(97,230,225,.1); color: var(--cyan); font-size: 19px; margin-bottom: 20px; }
+    .feature-card h3 { margin: 0 0 8px; font-size: 16px; }
+    .feature-card p { margin: 0; color: var(--muted); font-size: 12px; }
+    .small-note { color: #918a9c; font-size: 10px; margin-top: 18px; }
+
+    .platform-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .platform-card { padding: 28px; display: flex; align-items: center; gap: 18px; }
+    .platform-icon { width: 56px; height: 56px; border-radius: 17px; display: grid; place-items: center; flex-shrink: 0; background: rgba(255,255,255,.07); border: 1px solid var(--line); font-size: 23px; font-weight: 900; }
+    .platform-card h3 { margin: 0; font-size: 18px; }
+    .platform-card p { margin: 4px 0 0; color: var(--muted); font-size: 11px; }
+    .platform-status { margin-left: auto; color: var(--cyan); font-size: 9px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+    .unknown-box { margin-top: 18px; padding: 21px 24px; border-left: 3px solid var(--pink); background: rgba(255,79,163,.06); border-radius: 0 14px 14px 0; color: #c2bbc9; font-size: 12px; }
+    .unknown-box strong { color: var(--text); }
+
+    .launch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .launch-card { padding: 30px; }
+    .launch-card .date-big { font-size: 48px; line-height: 1; font-weight: 950; letter-spacing: -.07em; margin: 14px 0 4px; }
+    .launch-card .month { color: var(--pink); font-size: 11px; font-weight: 900; letter-spacing: .2em; text-transform: uppercase; }
+    .launch-card p { color: var(--muted); font-size: 12px; margin-bottom: 0; }
+    .launch-card .mini-line { height: 1px; background: var(--line); margin: 20px 0; }
+    .launch-card a.inline-link { display: inline-block; color: var(--cyan); font-size: 10px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; margin-top: 16px; }
+
+    .faq-list { display: grid; gap: 10px; }
+    details.faq { padding: 0 22px; }
+    details.faq summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 0; font-size: 13px; font-weight: 800; }
+    details.faq summary::-webkit-details-marker { display: none; }
+    details.faq summary::after { content: "+"; color: var(--pink); font-size: 22px; font-weight: 400; }
+    details.faq[open] summary::after { content: "−"; }
+    details.faq p { border-top: 1px solid var(--line); padding: 15px 0 19px; margin: 0; color: var(--muted); font-size: 12px; }
+
+    footer { padding: 45px 0 34px; border-top: 1px solid var(--line); background: rgba(0,0,0,.2); }
+    .footer-top { display: flex; align-items: start; justify-content: space-between; gap: 28px; }
+    .footer-brand { max-width: 460px; }
+    .footer-brand p { color: var(--muted); font-size: 11px; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 17px; color: #c4bdcc; font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .footer-links a:hover { color: var(--pink); }
+    .copyright { border-top: 1px solid var(--line); margin-top: 30px; padding-top: 18px; display: flex; justify-content: space-between; gap: 15px; color: #797385; font-size: 9px; letter-spacing: .08em; }
+    .disclaimer { color: #878091; max-width: 760px; }
+    .back-top { position: fixed; right: 22px; bottom: 22px; z-index: 40; width: 44px; height: 44px; border: 1px solid rgba(255,79,163,.4); border-radius: 50%; color: var(--pink); background: rgba(12,10,22,.86); backdrop-filter: blur(8px); cursor: pointer; opacity: 0; pointer-events: none; transform: translateY(10px); transition: .25s ease; }
+    .back-top.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 1000px) {
+      .nav-links { gap: 12px; }
+      .nav-links a { font-size: 9px; }
+      .world-grid { grid-template-columns: 1fr 1fr; }
+      .world-card.city { grid-column: span 2; }
+    }
+    @media (max-width: 760px) {
+      .container { width: min(var(--max), calc(100% - 28px)); }
+      .nav-wrap { min-height: 68px; }
+      .menu-toggle { display: block; }
+      .nav-links { display: none; position: absolute; top: 68px; left: 0; right: 0; padding: 17px 22px 22px; background: rgba(8,8,17,.98); border-bottom: 1px solid var(--line); flex-direction: column; align-items: stretch; gap: 0; }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.06); font-size: 11px; }
+      .nav-links a.nav-cta { text-align: center; margin-top: 12px; border: 1px solid rgba(97,230,225,.45); padding: 11px; }
+      .hero { min-height: 650px; }
+      .hero::before { background: linear-gradient(90deg, rgba(8,8,17,.95), rgba(8,8,17,.62)), linear-gradient(0deg,var(--bg),transparent 55%), radial-gradient(ellipse at 75% 40%, rgba(255,118,112,.55), transparent 19%), linear-gradient(120deg,#1b1835,#bd5468 70%,#ed9a72); }
+      .sun { width: 68vw; right: -2%; top: 16%; opacity: .55; }
+      .palm { right: -20%; transform: scale(.8); }
+      .hero-content { padding: 84px 0 100px; }
+      .hero-index { display: none; }
+      section { padding: 74px 0; }
+      .section-head { display: block; }
+      .section-head p { margin-top: 15px; }
+      .story-grid, .platform-wrap, .launch-grid { grid-template-columns: 1fr; }
+      .character-grid { grid-template-columns: 1fr; }
+      .character-card { min-height: 300px; }
+      .feature-grid { grid-template-columns: 1fr 1fr; }
+      .timer { gap: 8px; }
+      .time-box { padding: 19px 5px 16px; }
+      .time-box span { font-size: 8px; letter-spacing: .13em; }
+      .countdown-top, .timer-note { align-items: flex-start; flex-direction: column; }
+      .trailer-caption { align-items: flex-start; flex-direction: column; }
+      .footer-top, .copyright { flex-direction: column; }
+    }
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 64px; }
+      .hero-meta { gap: 15px; flex-wrap: wrap; }
+      .meta-item strong { font-size: 12px; }
+      .feature-grid, .world-grid { grid-template-columns: 1fr; }
+      .world-card.city { grid-column: auto; }
+      .world-card { min-height: 230px; }
+      .platform-card { align-items: flex-start; flex-wrap: wrap; }
+      .platform-status { margin-left: 74px; }
+      .timer { grid-template-columns: repeat(2,1fr); }
+      .timer-note { font-size: 10px; }
+      .launch-card .date-big { font-size: 42px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav-wrap">
+      <a class="brand" href="#overview" aria-label="Grand Theft Auto VI home">
+        <span class="brand-mark">VI</span>
+        <span class="brand-copy"><strong>GRAND THEFT AUTO</strong><span>THE LEONIDA COUNTDOWN</span></span>
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+        <a href="#overview">Overview</a>
+        <a href="#countdown">Countdown</a>
+        <a href="#trailer">Trailer</a>
+        <a href="#story">Story</a>
+        <a href="#characters">Characters</a>
+        <a href="#world">Leonida</a>
+        <a href="#features">Details</a>
+        <a href="#platforms">Platforms</a>
+        <a href="#launch">Launch</a>
+        <a href="#faq">FAQ</a>
+        <a class="nav-cta" href="https://www.rockstargames.com/VI" target="_blank" rel="noopener noreferrer">Official site ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- SECTION 01: OVERVIEW -->
+    <section class="hero" id="overview" aria-labelledby="hero-title">
+      <div class="hero-art" aria-hidden="true">
+        <div class="sun"></div>
+        <div class="palm"><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="container hero-content">
+        <div class="eyebrow">Welcome to the state of Leonida</div>
+        <h1 id="hero-title">Grand Theft<span>Auto VI</span></h1>
+        <p class="hero-sub">Vice City is calling. Explore the latest official information, watch the trailer, meet Jason and Lucia, and count down to launch day.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#countdown">⌄ &nbsp; Start the countdown</a>
+          <a class="btn btn-ghost" href="#trailer">▶ &nbsp; Watch trailer</a>
+        </div>
+        <div class="hero-meta">
+          <div class="meta-item"><strong>19 NOV 2026</strong><span>Release date</span></div>
+          <div class="meta-item"><strong>PS5 · XBOX</strong><span>Launch platforms</span></div>
+          <div class="meta-item"><strong>ROCKSTAR GAMES</strong><span>Developer & publisher</span></div>
+        </div>
+      </div>
+      <div class="hero-index">01 / 10 — THE WAIT IS ALMOST OVER</div>
+    </section>
+
+    <div class="ticker" aria-hidden="true"><div class="ticker-track">
+      <span>Vice City</span><span>Leonida</span><span>Jason & Lucia</span><span>November 19, 2026</span><span>Grand Theft Auto VI</span><span>Vice City</span><span>Leonida</span><span>Jason & Lucia</span><span>November 19, 2026</span><span>Grand Theft Auto VI</span>
+    </div></div>
+
+    <!-- SECTION 02: COUNTDOWN -->
+    <section class="countdown-section" id="countdown">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><span class="section-label">02 / The final stretch</span><h2>The countdown<br>is on.</h2></div>
+          <p>Grand Theft Auto VI is scheduled to launch on November 19, 2026. The timer uses midnight in the visitor’s local time zone.</p>
+        </div>
+        <div class="countdown-panel panel reveal">
+          <div class="countdown-top"><span class="live-dot">Launch countdown</span><span class="countdown-date">THURSDAY · 19 NOVEMBER 2026</span></div>
+          <div class="timer" id="timer" aria-live="off">
+            <div class="time-box"><strong id="days">---</strong><span>Days</span></div>
+            <div class="time-box"><strong id="hours">--</strong><span>Hours</span></div>
+            <div class="time-box"><strong id="minutes">--</strong><span>Minutes</span></div>
+            <div class="time-box"><strong id="seconds">--</strong><span>Seconds</span></div>
+          </div>
+          <div class="timer-note"><span id="timerMessage">Counting down to launch day. <b>Stay ready.</b></span><button class="copy-btn" id="copyCountdown">Copy countdown date ↗</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 03: TRAILER -->
+    <section id="trailer">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><span class="section-label">03 / Watch the footage</span><h2>Enter Vice City.</h2></div>
+          <p>Watch the trailer embedded below. Use the player controls to change quality, captions or playback settings.</p>
+        </div>
+        <div class="trailer-card panel reveal">
+          <div class="video-frame">
+            <iframe
+              src="https://www.youtube.com/embed/rz1B4B2yBZY?si=bO3FzWlNraZnuvVv"
+              title="Grand Theft Auto VI trailer"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+              loading="lazy"></iframe>
+          </div>
+          <div class="trailer-caption">
+            <div><h3>Grand Theft Auto VI — Trailer</h3><p>Embedded from the YouTube video supplied for this page.</p></div>
+            <span class="tag">Official video player</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 04: STORY -->
+    <section id="story">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><span class="section-label">04 / The story</span><h2>One score.<br>A whole state.</h2></div>
+          <p>A partnership pushed into a criminal conspiracy across Leonida. The official synopsis puts trust and survival at the centre of the story.</p>
+        </div>
+        <div class="story-grid reveal">
+          <article class="story-main panel">
+            <span class="section-label">The official synopsis</span>
+            <h3>They were always up against the odds.</h3>
+            <p>Jason and Lucia know the deck is stacked against them. When an easy score goes wrong, they find themselves on the darkest side of the sunniest place in America, caught in a criminal conspiracy stretching across Leonida. To make it out, they will have to rely on each other more than ever.</p>
+          </article>
+          <div class="story-side">
+            <article class="info-tile panel"><span class="tile-number">01 — PARTNERS</span><h3>Jason & Lucia</h3><p>Two protagonists at the centre of the story, bound together by risk and trust.</p></article>
+            <article class="info-tile panel"><span class="tile-number">02 — SETTING</span><h3>Leonida, USA</h3><p>A modern-day setting with Vice City at its heart and a wider state beyond it.</p></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 05: CHARACTERS -->
+    <section id="characters">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><span class="section-label">05 / The protagonists</span><h2>Meet the duo.</h2></div>
+          <p>The confirmed central characters are Jason Duval and Lucia Caminos. Their story is presented as a partnership under pressure.</p>
+        </div>
+        <div class="character-grid reveal">
+          <article class="character-card jason panel">
+            <div class="character-silhouette" aria-hidden="true"></div>
+            <div class="character-content"><span class="role">The partner</span><h3>Jason Duval</h3><p>Jason and Lucia are trying to make their way through a world where an easy score can turn into a much bigger problem.</p><div class="character-foot">One half of the story · Leonida</div></div>
+          </article>
+          <article class="character-card lucia panel">
+            <div class="character-silhouette" aria-hidden="true"></div>
+            <div class="character-content"><span class="role">The partner</span><h3>Lucia Caminos</h3><p>Lucia stands alongside Jason as the pair are forced to depend on one another to survive the conspiracy.</p><div class="character-foot">One half of the story · Leonida</div></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 06: WORLD -->
+    <section id="world">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><span class="section-label">06 / The setting</span><h2>Welcome to Leonida.</h2></div>
+          <p>Rockstar describes Vice City as part of the wider state of Leonida. These cards are setting notes, not a complete map.</p>
+        </div>
+        <div class="world-grid reveal">
+          <article class="world-card city panel"><span class="world-number">01 / THE CITY</span><h3>Vice City</h3><p>The famous city returns in a modern-day setting.</p></article>
+          <article class="world-card coast panel"><span class="world-number">02 / THE STATE</span><h3>Leonida</h3><p>The wider state where the central conspiracy unfolds.</p></article>
+          <article class="world-card state panel"><span class="world-number">03 / THE STORY</span><h3>Beyond the city</h3><p>The official synopsis points to a story stretching across the state.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 07: DETAILS -->
+    <section id="features">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><span class="section-label">07 / More to explore</span><h2>Details from Rockstar.</h2></div>
+          <p>A quick look at areas Rockstar highlights on the official game page. Specific gameplay systems should not be assumed unless confirmed.</p>
+        </div>
+        <div class="feature-grid reveal">
+          <article class="feature-card panel"><div class="feature-icon">♫</div><h3>Music & radio</h3><p>Rockstar highlights in-game radio, soundtrack and the original score as part of the experience.</p></article>
+          <article class="feature-card panel"><div class="feature-icon">▧</div><h3>Launch gallery</h3><p>The official site provides screenshots and a gallery showing locations and scenes from Leonida.</p></article>
+          <article class="feature-card panel"><div class="feature-icon">◎</div><h3>Media & artwork</h3><p>Official media and artwork are available through Rockstar’s downloads and news pages.</p></article>
+        </div>
+        <p class="small-note">This is a fan-made information page. It does not claim unreleased gameplay features, map size, or system requirements.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 08: PLATFORMS -->
+    <section id="platforms">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><span class="section-label">08 / Where to play</span><h2>Choose your platform.</h2></div>
+          <p>Rockstar’s current game listing names two platforms for launch.</p>
+        </div>
+        <div class="platform-wrap reveal">
+          <article class="platform-card panel"><div class="platform-icon">PS</div><div><h3>PlayStation 5</h3><p>Listed as a launch platform by Rockstar Games.</p></div><span class="platform-status">Listed</span></article>
+          <article class="platform-card panel"><div class="platform-icon">X</div><div><h3>Xbox Series X|S</h3><p>Listed as a launch platform by Rockstar Games.</p></div><span class="platform-status">Listed</span></article>
+        </div>
+        <div class="unknown-box reveal"><strong>What about PC?</strong> A PC version is not listed on Rockstar’s current official GTA VI page. Treat PC release dates or system requirements circulating online as unconfirmed unless Rockstar announces them.</div>
+      </div>
+    </section>
+
+    <!-- SECTION 09: LAUNCH -->
+    <section id="launch">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><span class="section-label">09 / Launch intel</span><h2>Mark the dates.</h2></div>
+          <p>The official launch information includes a pre-load window and the worldwide local-midnight release timing.</p>
+        </div>
+        <div class="launch-grid reveal">
+          <article class="launch-card panel">
+            <span class="month">Pre-load begins</span><div class="date-big">10 NOV</div><p>Digital pre-load is scheduled to begin on November 10, 2026. Exact timing differs by platform.</p>
+            <a class="inline-link" href="https://support.rockstargames.com/articles/29jV3Cv2cCgvwM1XgtMO5o/grand-theft-auto-vi-regional-pre-load-and-release-times-on-playstation-5-and-xbox-series-x-or-s" target="_blank" rel="noopener noreferrer">Read Rockstar support ↗</a>
+          </article>
+          <article class="launch-card panel">
+            <span class="month">Launch day</span><div class="date-big">19 NOV</div><p>Grand Theft Auto VI is scheduled to release at midnight local time on November 19, 2026.</p>
+            <a class="inline-link" href="https://www.rockstargames.com/VI" target="_blank" rel="noopener noreferrer">Visit Rockstar Games ↗</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 10: FAQ -->
+    <section id="faq">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><span class="section-label">10 / Quick answers</span><h2>Frequently asked.</h2></div>
+          <p>Answers are based on the currently published official information. Details can change, so check Rockstar’s site for updates.</p>
+        </div>
+        <div class="faq-list reveal">
+          <details class="faq panel"><summary>When does GTA VI release?</summary><p>Rockstar lists November 19, 2026. Its support page says the game releases at midnight local time on that date.</p></details>
+          <details class="faq panel"><summary>Which platforms are confirmed?</summary><p>Rockstar currently lists PlayStation 5 and Xbox Series X|S.</p></details>
+          <details class="faq panel"><summary>Is a PC version confirmed?</summary><p>A PC version is not listed on the current official GTA VI game page. No PC release date is stated there.</p></details>
+          <details class="faq panel"><summary>Who are the main characters?</summary><p>Jason Duval and Lucia Caminos are the two central protagonists described on Rockstar’s official page.</p></details>
+          <details class="faq panel"><summary>Where does the game take place?</summary><p>The game is set in Leonida, with Vice City as a key location.</p></details>
+          <details class="faq panel"><summary>Is this an official Rockstar website?</summary><p>No. This is an independent fan-made page. Grand Theft Auto and related marks belong to their respective rights holders.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand"><a class="brand" href="#overview"><span class="brand-mark">VI</span><span class="brand-copy"><strong>GRAND THEFT AUTO</strong><span>THE LEONIDA COUNTDOWN</span></span></a><p>A fan-made GTA VI countdown and information page. Not affiliated with, endorsed by, or sponsored by Rockstar Games.</p></div>
+        <div class="footer-links"><a href="#overview">Top</a><a href="#trailer">Trailer</a><a href="#countdown">Countdown</a><a href="https://www.rockstargames.com/VI" target="_blank" rel="noopener noreferrer">Rockstar Games ↗</a></div>
+      </div>
+      <div class="copyright"><span>© 2026 FAN-MADE PROJECT · NOT AN OFFICIAL ROCKSTAR WEBSITE</span><span class="disclaimer">Grand Theft Auto, Rockstar Games and related names and marks are the property of their respective owners.</span></div>
+    </div>
+  </footer>
+
+  <button class="back-top" id="backTop" aria-label="Back to top">↑</button>
+
+  <script>
+    // Release date: midnight on 19 November 2026 in the visitor's local time zone.
+    const releaseDate = new Date(2026, 10, 19, 0, 0, 0, 0);
+    const byId = (id) => document.getElementById(id);
+
+    function updateCountdown() {
+      const now = new Date();
+      const difference = releaseDate.getTime() - now.getTime();
+      if (difference <= 0) {
+        byId('days').textContent = '00';
+        byId('hours').textContent = '00';
+        byId('minutes').textContent = '00';
+        byId('seconds').textContent = '00';
+        byId('timerMessage').innerHTML = '<b>Launch day is here.</b> Check the official store for availability in your region.';
+        return;
+      }
+      const totalSeconds = Math.floor(difference / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      byId('days').textContent = String(days).padStart(2, '0');
+      byId('hours').textContent = String(hours).padStart(2, '0');
+      byId('minutes').textContent = String(minutes).padStart(2, '0');
+      byId('seconds').textContent = String(seconds).padStart(2, '0');
+    }
+    updateCountdown();
+    window.setInterval(updateCountdown, 1000);
+
+    // Mobile navigation
+    const menuToggle = byId('menuToggle');
+    const navLinks = byId('navLinks');
+    menuToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+      menuToggle.textContent = isOpen ? '✕' : '☰';
+    });
+    navLinks.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.textContent = '☰';
+      });
+    });
+
+    // Copy the target date using the browser clipboard when available.
+    byId('copyCountdown').addEventListener('click', async () => {
+      const dateText = 'Grand Theft Auto VI release: November 19, 2026 at midnight local time.';
+      const button = byId('copyCountdown');
+      try {
+        await navigator.clipboard.writeText(dateText);
+        button.textContent = 'Copied ✓';
+      } catch (error) {
+        button.textContent = '19 NOV 2026';
+      }
+      window.setTimeout(() => { button.textContent = 'Copy countdown date ↗'; }, 2200);
+    });
+
+    // Reveal cards as they enter the viewport; content remains visible without IntersectionObserver.
+    const revealItems = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      revealItems.forEach((item) => observer.observe(item));
+    } else {
+      revealItems.forEach((item) => item.classList.add('visible'));
+    }
+
+    // Highlight the navigation item for the section currently on screen.
+    const sections = document.querySelectorAll('main section[id]');
+    if ('IntersectionObserver' in window) {
+      const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            navLinks.querySelectorAll('a[href^="#"]').forEach((link) => {
+              link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`);
+            });
+          }
+        });
+      }, { rootMargin: '-35% 0px -55% 0px' });
+      sections.forEach((section) => sectionObserver.observe(section));
+    }
+
+    // Back-to-top button
+    const backTop = byId('backTop');
+    window.addEventListener('scroll', () => backTop.classList.toggle('show', window.scrollY > 650), { passive: true });
+    backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
+</body>
+</html>
